@@ -1,4 +1,4 @@
-package se.leiflandia.lroi;
+package se.leiflandia.sample.lroi;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;

@@ -1,1 +1,1 @@
-include ':app', ':lroi-lib'
+include ':lroi-lib'
