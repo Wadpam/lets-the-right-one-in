@@ -19,10 +19,18 @@ public class AuthUtils {
     private static final String PREF_ACTIVE_ACCOUNT = "active_account";
     private static final String PREFS_NAME = "se.leiflandia.lroi.prefs";
 
+    public static void removeActiveAccount(Context context, String accountType) {
+        Account account = getActiveAccount(context, accountType);
+        if (account != null) {
+            AccountManager.get(context).removeAccount(account, null, null);
+        }
+        setActiveAccountName(context, null);
+    }
+
     public static Account getActiveAccount(final Context context, final String accountType) {
         Account[] accounts = AccountManager.get(context).getAccountsByType(accountType);
-        Account account;
 
+        Account account;
         if (accounts.length == 1) {
             account = accounts[0];
         } else if (accounts.length > 1) {

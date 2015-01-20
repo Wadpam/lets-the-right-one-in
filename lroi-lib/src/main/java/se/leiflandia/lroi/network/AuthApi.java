@@ -9,6 +9,7 @@ import retrofit.http.POST;
 import se.leiflandia.lroi.auth.model.AccessToken;
 import se.leiflandia.lroi.auth.model.RefreshTokenCredentials;
 import se.leiflandia.lroi.auth.model.ResetPassword;
+import se.leiflandia.lroi.auth.model.RevocationRequest;
 import se.leiflandia.lroi.auth.model.User;
 import se.leiflandia.lroi.auth.model.UserCredentials;
 
@@ -24,6 +25,9 @@ public interface AuthApi {
 
     @POST("/api/user")
     public void signup(@Body User user, Callback<String> callback);
+
+    @POST("/oauth/revoke")
+    public void revoke(@Body RevocationRequest request, Callback<String> callback);
 
     @GET("/api/user/me")
     public void me(Callback<JsonElement> callback);
