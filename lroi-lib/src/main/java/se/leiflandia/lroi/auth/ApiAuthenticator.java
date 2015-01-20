@@ -37,7 +37,7 @@ public class ApiAuthenticator implements Authenticator {
         // Do not try to authenticate oauth related paths
         if (response.request().uri().getPath().startsWith("/oauth")) return null;
 
-        Account account = AuthUtils.getActiveAccount(app);
+        Account account = AuthUtils.getActiveAccount(app, accountType);
 
         String oldToken = accountManager.peekAuthToken(account, authtokenType);
         if (oldToken != null) {

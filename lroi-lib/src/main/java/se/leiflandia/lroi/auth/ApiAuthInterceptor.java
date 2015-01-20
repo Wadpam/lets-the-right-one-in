@@ -12,16 +12,18 @@ public class ApiAuthInterceptor implements RequestInterceptor {
     private final Application app;
     private final AccountManager accountManager;
     private final String authtokenType;
+    private String accountType;
 
-    public ApiAuthInterceptor(Application application, AccountManager accountManager, String authtokenType) {
+    public ApiAuthInterceptor(Application application, AccountManager accountManager, String authtokenType, String accountType) {
         this.app = application;
         this.accountManager = accountManager;
         this.authtokenType = authtokenType;
+        this.accountType = accountType;
     }
 
     @Override
     public void intercept(RequestFacade request) {
-        Account account = AuthUtils.getActiveAccount(app);
+        Account account = AuthUtils.getActiveAccount(app, accountType);
         String token = null;
         if (account != null) {
             token = accountManager.peekAuthToken(account, authtokenType);

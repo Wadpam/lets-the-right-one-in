@@ -19,8 +19,8 @@ public class AuthUtils {
     private static final String PREF_ACTIVE_ACCOUNT = "active_account";
     private static final String PREFS_NAME = "se.leiflandia.lroi.prefs";
 
-    public static Account getActiveAccount(final Context context) {
-        Account[] accounts = AccountManager.get(context).getAccounts();
+    public static Account getActiveAccount(final Context context, final String accountType) {
+        Account[] accounts = AccountManager.get(context).getAccountsByType(accountType);
         Account account;
 
         if (accounts.length == 1) {
@@ -34,8 +34,8 @@ public class AuthUtils {
         return account;
     }
 
-    public static boolean hasActiveAccount(final Context context) {
-        return getActiveAccount(context) != null;
+    public static boolean hasActiveAccount(final Context context, final String accountType) {
+        return getActiveAccount(context, accountType) != null;
     }
 
     private static String getActiveAccountName(final Context context) {
