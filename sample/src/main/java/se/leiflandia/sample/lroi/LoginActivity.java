@@ -59,6 +59,20 @@ public class LoginActivity extends AbstractLoginActivity {
         mPasswordView = (EditText) findViewById(R.id.password);
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        findViewById(R.id.signin_button).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attemptLogin();
+            }
+        });
+
+        findViewById(R.id.register_button).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attemptRegistration();
+            }
+        });
     }
 
     public boolean validate(String email, String password) {
@@ -83,7 +97,7 @@ public class LoginActivity extends AbstractLoginActivity {
             valid = false;
         }
 
-        focusView.requestFocus();
+        if (focusView != null) focusView.requestFocus();
         return valid;
     }
 

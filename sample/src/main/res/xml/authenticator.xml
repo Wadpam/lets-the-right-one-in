@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Please note accountType needs to be the same as provided to AuthAdapter -->
 <account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
-    android:accountType="[Insert your account type here]"
+    android:accountType="org.example.account"
     android:icon="@drawable/ic_launcher"
     android:smallIcon="@drawable/ic_launcher"
-    android:label="[Insert your account label here]"
+    android:label="Test"
     />
