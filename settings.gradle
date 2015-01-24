@@ -1,1 +1,1 @@
-include ':lroi-lib'
+include ':lroi-lib', 'sample'

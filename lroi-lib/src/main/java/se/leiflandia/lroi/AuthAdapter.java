@@ -3,6 +3,7 @@ package se.leiflandia.lroi;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
+import android.content.Intent;
 
 import org.apache.http.HttpStatus;
 
@@ -172,6 +173,10 @@ public class AuthAdapter {
         });
     }
 
+    public boolean isSignedIn() {
+        return AuthUtils.hasActiveAccount(getApplicationContext(), getAccountType());
+    }
+
     public AccountAuthenticator getAccountAuthenticator() {
         return accountAuthenticator;
     }
@@ -192,11 +197,11 @@ public class AuthAdapter {
         return applicationContext;
     }
 
-    private String getAuthTokenType() {
+    public String getAuthTokenType() {
         return authTokenType;
     }
 
-    private String getAccountType() {
+    public String getAccountType() {
         return accountType;
     }
 
@@ -204,8 +209,20 @@ public class AuthAdapter {
         return accountManager;
     }
 
-    private ClientCredentials getClientCredentials() {
+    public ClientCredentials getClientCredentials() {
         return clientCredentials;
+    }
+
+    public UserCredentials createPasswordUserCredentials(String username, String password) {
+        return new UserCredentials(getClientCredentials(), username, password, "password");
+    }
+
+    public Class<? extends AbstractLoginActivity> getLoginActivityClass() {
+        return loginActivityClass;
+    }
+
+    public Intent getLoginActivityIntent(Context context) {
+        return AbstractLoginActivity.createIntent(context, getLoginActivityClass(), getAccountType(), getAuthTokenType());
     }
 
     public static class Builder {
@@ -269,6 +286,10 @@ public class AuthAdapter {
                 api = defaultApi(endpoint);
             } else if (api != null && endpoint != null) {
                 throw new IllegalArgumentException("You need to set either an AuthApi or an endpoint string.");
+            }
+
+            if (accountManager == null && applicationContext != null) {
+                accountManager = AccountManager.get(applicationContext);
             }
 
             Utils.checkNotNull(api);
