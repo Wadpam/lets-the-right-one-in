@@ -5,14 +5,9 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
-import android.util.Log;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import se.leiflandia.lroi.auth.model.AccessToken;
 import se.leiflandia.lroi.auth.model.UserCredentials;
-import se.leiflandia.lroi.network.AuthApi;
 
 public class AuthUtils {
 

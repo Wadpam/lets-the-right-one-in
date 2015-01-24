@@ -2,7 +2,7 @@ package se.leiflandia.lroi.auth;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import com.squareup.okhttp.Authenticator;
@@ -19,12 +19,12 @@ public class ApiAuthenticator implements Authenticator {
     private static final String TAG = ApiAuthenticator.class.getSimpleName();
 
     final AccountManager accountManager;
-    final Application app;
+    final Context appContext;
     final String authtokenType;
     final String accountType;
 
-    public ApiAuthenticator(Application application, String authtokenType, String accountType) {
-        this.app = application;
+    public ApiAuthenticator(Context application, String authtokenType, String accountType) {
+        this.appContext = application;
         this.authtokenType = authtokenType;
         this.accountType = accountType;
         this.accountManager = AccountManager.get(application);
@@ -37,7 +37,7 @@ public class ApiAuthenticator implements Authenticator {
         // Do not try to authenticate oauth related paths
         if (response.request().uri().getPath().startsWith("/oauth")) return null;
 
-        Account account = AuthUtils.getActiveAccount(app, accountType);
+        Account account = AuthUtils.getActiveAccount(appContext, accountType);
 
         String oldToken = accountManager.peekAuthToken(account, authtokenType);
         if (oldToken != null) {

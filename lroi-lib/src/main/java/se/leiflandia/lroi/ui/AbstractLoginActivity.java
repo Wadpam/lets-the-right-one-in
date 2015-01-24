@@ -1,6 +1,5 @@
 package se.leiflandia.lroi.ui;
 
-import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
@@ -55,8 +54,6 @@ public abstract class AbstractLoginActivity extends AccountAuthenticatorActivity
         return createIntent(context, loginActivityClass, null, null, accountType, authTokenType);
     }
 
-    public abstract AuthApi getApi();
-
     public static boolean checkEmailFormat(String email) {
         return email != null && email.contains("@") && email.length() >= 3;
     }
@@ -69,88 +66,4 @@ public abstract class AbstractLoginActivity extends AccountAuthenticatorActivity
         return password != null && password.matches("^[^\\x00-\\x1F]{5,}$");
     }
 
-
-    /**
-     * Convenience method for signing up a user.
-     */
-    public void signup(final User user, final SignupCallback callback) {
-        getApi().signup(user, new Callback<String>() {
-            @Override
-            public void success(String id, Response response) {
-                callback.success(user);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                SignupCallback.SignupFailure kind;
-                switch (error.getKind()) {
-                    case NETWORK:
-                        kind = SignupCallback.SignupFailure.NETWORK;
-                        break;
-                    case HTTP:
-                        int status = error.getResponse().getStatus();
-                        if (status == HttpStatus.SC_CONFLICT) {
-                            kind = SignupCallback.SignupFailure.CONFLICT;
-                        } else if (status == HttpStatus.SC_BAD_REQUEST) {
-                            kind = SignupCallback.SignupFailure.BAD_REQUEST;
-                        } else {
-                            kind = SignupCallback.SignupFailure.UNEXPECTED;
-                        }
-                    default:
-                        kind = SignupCallback.SignupFailure.UNEXPECTED;
-                }
-                callback.failure(kind, error);
-            }
-        });
-    }
-
-    public void signin(final UserCredentials credentials, final SigninCallback callback) {
-        getApi().authorize(credentials, new Callback<AccessToken>() {
-            @Override
-            public void success(AccessToken token, Response response) {
-                AuthUtils.setAuthorizedAccount(
-                        getApplicationContext(),
-                        credentials,
-                        token,
-                        getIntent().getStringExtra(PARAM_AUTH_TOKEN_TYPE),
-                        getIntent().getStringExtra(AccountManager.KEY_ACCOUNT_TYPE)
-                );
-                callback.success();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                SigninCallback.SigninFailure kind;
-                switch (error.getKind()) {
-                    case NETWORK:
-                        kind = SigninCallback.SigninFailure.NETWORK;
-                        break;
-                    case HTTP:
-                        int status = error.getResponse().getStatus();
-                        if (status == HttpStatus.SC_BAD_REQUEST) {
-                            kind = SigninCallback.SigninFailure.BAD_CREDENTIALS;
-                        } else {
-                            kind = SigninCallback.SigninFailure.UNEXPECTED;
-                        }
-                    default:
-                        kind = SigninCallback.SigninFailure.UNEXPECTED;
-                }
-                callback.failure(kind, error);
-            }
-        });
-    }
-
-    public interface SignupCallback {
-        public enum SignupFailure { NETWORK, CONFLICT, BAD_REQUEST, UNEXPECTED; }
-
-        public void success(User user);
-        public void failure(SignupFailure kind, RetrofitError error);
-    }
-
-    public interface SigninCallback {
-        public enum SigninFailure { NETWORK, BAD_CREDENTIALS, UNEXPECTED; }
-
-        public void success();
-        public void failure(SigninFailure kind, RetrofitError error);
-    }
 }
