@@ -30,7 +30,8 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     private ClientCredentials clientCredentials;
     private String accountType;
 
-    public AccountAuthenticator(Context context, AuthApi api, Class<? extends AbstractLoginActivity> loginActivity, String authtokenType, ClientCredentials clientCredentials, String accountType) {
+    public AccountAuthenticator(Context context, AuthApi api, Class<? extends AbstractLoginActivity> loginActivity,
+            String authtokenType, ClientCredentials clientCredentials, String accountType) {
         super(context);
         this.context = context;
         this.api = api;

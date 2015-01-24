@@ -9,6 +9,7 @@ import org.apache.http.HttpStatus;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import se.leiflandia.lroi.auth.AccountAuthenticator;
 import se.leiflandia.lroi.auth.ApiAuthInterceptor;
 import se.leiflandia.lroi.auth.ApiAuthenticator;
 import se.leiflandia.lroi.auth.model.AccessToken;
@@ -20,6 +21,7 @@ import se.leiflandia.lroi.network.AuthApi;
 import se.leiflandia.lroi.network.SigninFailure;
 import se.leiflandia.lroi.network.SignoutFailure;
 import se.leiflandia.lroi.network.SignupFailure;
+import se.leiflandia.lroi.ui.AbstractLoginActivity;
 import se.leiflandia.lroi.utils.AuthUtils;
 import se.leiflandia.lroi.utils.Callback;
 import se.leiflandia.lroi.utils.Utils;
@@ -35,6 +37,8 @@ public class AuthAdapter {
     private final String accountType;
     private final AccountManager accountManager;
     private final ClientCredentials clientCredentials;
+    private final AccountAuthenticator accountAuthenticator;
+    private final Class<? extends AbstractLoginActivity> loginActivityClass;
 
     public AuthAdapter(Builder builder) {
         this.api = builder.api;
@@ -43,6 +47,9 @@ public class AuthAdapter {
         this.accountType = builder.accountType;
         this.accountManager = builder.accountManager;
         this.clientCredentials = builder.clientCredentials;
+        this.loginActivityClass = builder.loginActivityClass;
+        accountAuthenticator = new AccountAuthenticator(applicationContext, api, loginActivityClass,
+            authTokenType, clientCredentials, accountType);
     }
 
     /**
@@ -165,6 +172,10 @@ public class AuthAdapter {
         });
     }
 
+    public AccountAuthenticator getAccountAuthenticator() {
+        return accountAuthenticator;
+    }
+
     public ApiAuthInterceptor createAuthInterceptor() {
         return new ApiAuthInterceptor(getApplicationContext(), getAccountManager(), getAccountType(), getAccountType());
     }
@@ -205,6 +216,7 @@ public class AuthAdapter {
         private AccountManager accountManager;
         private ClientCredentials clientCredentials;
         private String endpoint;
+        public Class<? extends AbstractLoginActivity> loginActivityClass;
 
         public Builder() { }
 
@@ -238,6 +250,10 @@ public class AuthAdapter {
             return this;
         }
 
+        public Builder setLoginActivityClass(Class<? extends AbstractLoginActivity> loginActivityClass) {
+            this.loginActivityClass = loginActivityClass;
+            return this;
+        }
         /**
          * Set endpoint for the auth api. Not required if an AuthApi is provided, otherwise
          * required.
@@ -254,13 +270,14 @@ public class AuthAdapter {
             } else if (api != null && endpoint != null) {
                 throw new IllegalArgumentException("You need to set either an AuthApi or an endpoint string.");
             }
-            Utils.checkNotNull(api);
 
+            Utils.checkNotNull(api);
             Utils.checkNotNull(applicationContext);
             Utils.checkNotNull(authTokenType);
             Utils.checkNotNull(accountType);
             Utils.checkNotNull(accountManager);
             Utils.checkNotNull(clientCredentials);
+            Utils.checkNotNull(loginActivityClass);
 
             return new AuthAdapter(this);
         }

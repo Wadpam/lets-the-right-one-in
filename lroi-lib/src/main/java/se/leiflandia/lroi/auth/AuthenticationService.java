@@ -4,18 +4,13 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import se.leiflandia.lroi.AuthAdapter;
+
 public abstract class AuthenticationService extends Service {
-    private AccountAuthenticator authenticator;
-
-    public abstract AccountAuthenticator getAuthenticator();
-
-    @Override
-    public void onCreate() {
-        authenticator = getAuthenticator();
-    }
+    public abstract AuthAdapter getAuthAdapter();
 
     @Override
     public IBinder onBind(Intent intent) {
-        return authenticator.getIBinder();
+        return getAuthAdapter().getAccountAuthenticator().getIBinder();
     }
 }
