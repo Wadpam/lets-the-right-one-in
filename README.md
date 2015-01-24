@@ -15,11 +15,11 @@ Features:
 ## Usage
 
 
-# Step 1
+### Step 1
 
 Create a class that extends se.leiflandia.lroi.auth.AuthenticationService.
 
-# Step 2
+### Step 2
 
 Edit your apps manifest file and make sure it includes the following permissions:
 
@@ -48,7 +48,7 @@ Also add the service created in step 1 in the manifest under `<application>`:
 </service>
 ```
 
-# Step 3
+### Step 3
 
 Create the file `res/xml/authenticator.xml` with the following content:
 
@@ -66,7 +66,7 @@ Create the file `res/xml/authenticator.xml` with the following content:
 Replace the values in brackets.
 
 
-# Step 4
+### Step 4
 
 Create an instance of AuthAdapter, for example like this:
 
