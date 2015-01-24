@@ -9,7 +9,7 @@ Features:
 
 - Compatible with [Guja](https://github.com/Wadpam/guja)
 - Provides authentication based on [AccountManager](http://developer.android.com/reference/android/accounts/AccountManager.html) accounts
-- Aimed for projects that uses Retrofit + OkHttp
+- Aimed for projects that uses Retrofit + OkHttp (unsuitable for projects that don't). __This might change in future releases.__
 
 
 ## Usage
