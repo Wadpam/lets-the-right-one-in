@@ -306,6 +306,7 @@ public class AuthAdapter {
         private AuthApi defaultApi(String endpoint) {
             return new RestAdapter.Builder()
                     .setEndpoint(endpoint)
+                    .setLogLevel(RestAdapter.LogLevel.BASIC)
                     .build()
                     .create(AuthApi.class);
         }

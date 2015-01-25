@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         setContentView(R.layout.activity_main);
-        ((TextView) findViewById(R.id.message)).setText("Successfully authenticated user.");
+        ((TextView) findViewById(R.id.message)).setText("Successfully authenticated user (hopefully).");
 
         findViewById(R.id.signout_button).setOnClickListener(new View.OnClickListener() {
             @Override
