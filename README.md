@@ -22,18 +22,7 @@ Create a class that extends `se.leiflandia.lroi.auth.AuthenticationService`.
 
 ### Step 2
 
-Edit your apps manifest file and make sure it includes the following permissions:
-
-```
-<uses-permission android:name="android.permission.READ_PROFILE" />
-<uses-permission android:name="android.permission.READ_CONTACTS" />
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-<uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-<uses-permission android:name="android.permission.GET_ACCOUNTS" />
-```
-
-Also add the service created in step 1 to the manifest under `<application>`:
+Add the service created in the last step to the manifest under `<application>`:
 
 ```
 <service
@@ -50,6 +39,7 @@ Also add the service created in step 1 to the manifest under `<application>`:
 ```
 
 Replace `.ExampleAuthenticationService` with your own implementation of `se.leiflandia.lroi.auth.AuthenticationService`.
+
 
 ### Step 3
 
