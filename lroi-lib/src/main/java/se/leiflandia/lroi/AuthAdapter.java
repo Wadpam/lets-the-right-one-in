@@ -5,6 +5,8 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 
+import com.google.gson.JsonElement;
+
 import org.apache.http.HttpStatus;
 
 import retrofit.RestAdapter;
@@ -15,10 +17,12 @@ import se.leiflandia.lroi.auth.ApiAuthInterceptor;
 import se.leiflandia.lroi.auth.ApiAuthenticator;
 import se.leiflandia.lroi.auth.model.AccessToken;
 import se.leiflandia.lroi.auth.model.ClientCredentials;
+import se.leiflandia.lroi.auth.model.ResetPassword;
 import se.leiflandia.lroi.auth.model.RevocationRequest;
 import se.leiflandia.lroi.auth.model.User;
 import se.leiflandia.lroi.auth.model.UserCredentials;
 import se.leiflandia.lroi.network.AuthApi;
+import se.leiflandia.lroi.network.PasswordResetFailure;
 import se.leiflandia.lroi.network.SigninFailure;
 import se.leiflandia.lroi.network.SignoutFailure;
 import se.leiflandia.lroi.network.SignupFailure;
@@ -168,6 +172,27 @@ public class AuthAdapter {
                 } else {
                     AuthUtils.removeActiveAccount(getApplicationContext(), getAccountType());
                     callback.success(null);
+                }
+            }
+        });
+    }
+
+    public void passwordReset(final ResetPassword request, final Callback<Void, PasswordResetFailure> callback) {
+        getApi().resetPassword(request, new retrofit.Callback<JsonElement>() {
+            @Override
+            public void success(JsonElement jsonElement, Response response) {
+                callback.success(null);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                switch (error.getKind()) {
+                    case NETWORK:
+                        callback.failure(PasswordResetFailure.NETWORK);
+                        break;
+                    default:
+                        callback.failure(PasswordResetFailure.UNEXPECTED);
+                        break;
                 }
             }
         });
