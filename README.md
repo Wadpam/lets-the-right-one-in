@@ -73,7 +73,8 @@ AuthAdapter auth = new AuthAdapter.Builder()
     .setLoginActivityClass(LoginActivity.class)
     .build();
 ```
+### Step 5
 
-This instance can be used to perform sign up, sign in and sign out operations. It can also create
+Use the instance of Authadapter to perform sign up, sign in and sign out operations. It can also create
 instances of com.squareup.okhttp.Authenticator and retrofit.RequestInterceptor that can be used
-together with OkHttp and Retrofit.
+together with OkHttp and Retrofit to automatically include the access token in http requests and refresh when access token have expired.
