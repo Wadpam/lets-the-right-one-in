@@ -14,7 +14,7 @@ Features:
 
 ## Usage
 
-Follow the steps below to use this library. There's also an example app in the `/sample` folder.
+Follow the steps below to use this library. There's also a very basic example app in the `/sample` folder (please note that this sample doesn't make use of the com.squareup.okhttp.Authenticator and retrofit.RequestInterceptor classes that AuthAdapter can provide).
 
 ### Step 1
 
