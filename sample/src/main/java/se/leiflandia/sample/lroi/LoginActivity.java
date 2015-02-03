@@ -1,38 +1,13 @@
 package se.leiflandia.sample.lroi;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentResolver;
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import se.leiflandia.lroi.AuthAdapter;
-import se.leiflandia.lroi.auth.model.User;
-import se.leiflandia.lroi.auth.model.UserCredentials;
+import se.leiflandia.lroi.auth.model.DUser;
 import se.leiflandia.lroi.network.SigninFailure;
 import se.leiflandia.lroi.network.SignupFailure;
 import se.leiflandia.lroi.ui.AbstractLoginActivity;
@@ -132,9 +107,14 @@ public class LoginActivity extends AbstractLoginActivity {
 
         if (validate(email, password)) {
             showProgress(true);
-            auth.signup(new User(email, password, email), new Callback<User, SignupFailure>() {
+            DUser user = new DUser.Builder()
+                    .setUsername(email)
+                    .setPassword(password)
+                    .setEmail(email)
+                    .build();
+            auth.signup(user, new Callback<DUser, SignupFailure>() {
                 @Override
-                public void success(User response) {
+                public void success(DUser response) {
                     Toast.makeText(LoginActivity.this, "Registration successful.", Toast.LENGTH_LONG).show();
                 }
 

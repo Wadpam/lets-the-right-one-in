@@ -6,17 +6,6 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 
-import org.apache.http.HttpStatus;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import se.leiflandia.lroi.auth.model.AccessToken;
-import se.leiflandia.lroi.auth.model.User;
-import se.leiflandia.lroi.auth.model.UserCredentials;
-import se.leiflandia.lroi.network.AuthApi;
-import se.leiflandia.lroi.utils.AuthUtils;
-
 public abstract class AbstractLoginActivity extends AccountAuthenticatorActivity {
     // TODO Read parameters in onCreate and handle missing
     private static final String PARAM_AUTH_TOKEN_TYPE = "PARAM_AUTH_TOKEN_TYPE";

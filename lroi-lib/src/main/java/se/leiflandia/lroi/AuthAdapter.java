@@ -19,7 +19,7 @@ import se.leiflandia.lroi.auth.model.AccessToken;
 import se.leiflandia.lroi.auth.model.ClientCredentials;
 import se.leiflandia.lroi.auth.model.ResetPassword;
 import se.leiflandia.lroi.auth.model.RevocationRequest;
-import se.leiflandia.lroi.auth.model.User;
+import se.leiflandia.lroi.auth.model.DUser;
 import se.leiflandia.lroi.auth.model.UserCredentials;
 import se.leiflandia.lroi.network.AuthApi;
 import se.leiflandia.lroi.network.PasswordResetFailure;
@@ -64,7 +64,7 @@ public class AuthAdapter {
      * @param user the user to sign in
      * @param callback callback to handle success or error
      */
-    public void signup(final User user, final Callback<User, SignupFailure> callback) {
+    public void signup(final DUser user, final Callback<DUser, SignupFailure> callback) {
         getApi().signup(user, new retrofit.Callback<String>() {
             @Override
             public void success(String id, Response response) {

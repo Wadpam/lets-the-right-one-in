@@ -10,7 +10,7 @@ import se.leiflandia.lroi.auth.model.AccessToken;
 import se.leiflandia.lroi.auth.model.RefreshTokenCredentials;
 import se.leiflandia.lroi.auth.model.ResetPassword;
 import se.leiflandia.lroi.auth.model.RevocationRequest;
-import se.leiflandia.lroi.auth.model.User;
+import se.leiflandia.lroi.auth.model.DUser;
 import se.leiflandia.lroi.auth.model.UserCredentials;
 
 public interface AuthApi {
@@ -24,7 +24,7 @@ public interface AuthApi {
     public AccessToken refreshAccessToken(@Body RefreshTokenCredentials credentials);
 
     @POST("/api/user")
-    public void signup(@Body User user, Callback<String> callback);
+    public void signup(@Body DUser user, Callback<String> callback);
 
     @POST("/oauth/revoke")
     public void revoke(@Body RevocationRequest request, Callback<String> callback);
