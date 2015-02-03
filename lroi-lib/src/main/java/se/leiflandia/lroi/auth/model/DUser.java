@@ -147,7 +147,7 @@ public class DUser extends DOAuth2User implements Serializable {
 
     private DUser() { super(null, null, null, null, null, null, null); }
 
-    public static class Builder {
+    public static class Builder implements Serializable {
 
         // AbstractLongEntity
         private Long id;
