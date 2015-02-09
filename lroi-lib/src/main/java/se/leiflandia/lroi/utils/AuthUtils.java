@@ -24,17 +24,7 @@ public class AuthUtils {
 
     public static Account getActiveAccount(final Context context, final String accountType) {
         Account[] accounts = AccountManager.get(context).getAccountsByType(accountType);
-
-        Account account;
-        if (accounts.length == 1) {
-            account = accounts[0];
-        } else if (accounts.length > 1) {
-            account = getActiveAccount(accounts, getActiveAccountName(context));
-        } else {
-            account = null;
-        }
-
-        return account;
+        return getActiveAccount(accounts, getActiveAccountName(context));
     }
 
     public static boolean hasActiveAccount(final Context context, final String accountType) {
