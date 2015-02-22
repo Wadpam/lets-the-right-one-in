@@ -202,6 +202,10 @@ public class AuthAdapter {
         return AuthUtils.hasActiveAccount(getApplicationContext(), getAccountType());
     }
 
+    public Account getActiveAccount() {
+        return AuthUtils.getActiveAccount(getApplicationContext(), getAccountType());
+    }
+
     public AccountAuthenticator getAccountAuthenticator() {
         return accountAuthenticator;
     }
