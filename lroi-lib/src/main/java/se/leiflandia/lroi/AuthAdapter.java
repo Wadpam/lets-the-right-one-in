@@ -2,6 +2,7 @@ package se.leiflandia.lroi;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 
@@ -262,6 +263,7 @@ public class AuthAdapter {
         private AccountManager accountManager;
         private ClientCredentials clientCredentials;
         private String endpoint;
+        private RestAdapter.LogLevel retrofitLogLevel = RestAdapter.LogLevel.NONE;
         public Class<? extends AbstractLoginActivity> loginActivityClass;
 
         public Builder() { }
@@ -300,6 +302,11 @@ public class AuthAdapter {
             this.loginActivityClass = loginActivityClass;
             return this;
         }
+
+        public Builder setRetrofitLogLevel(RestAdapter.LogLevel level) {
+            retrofitLogLevel = level;
+            return this;
+        }
         /**
          * Set endpoint for the auth api. Not required if an AuthApi is provided, otherwise
          * required.
@@ -335,7 +342,7 @@ public class AuthAdapter {
         private AuthApi defaultApi(String endpoint) {
             return new RestAdapter.Builder()
                     .setEndpoint(endpoint)
-                    .setLogLevel(RestAdapter.LogLevel.BASIC)
+                    .setLogLevel(retrofitLogLevel)
                     .build()
                     .create(AuthApi.class);
         }
