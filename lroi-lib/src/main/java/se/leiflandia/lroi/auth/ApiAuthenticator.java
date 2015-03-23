@@ -68,4 +68,7 @@ public class ApiAuthenticator implements Authenticator {
         return null;
     }
 
+    private interface AuthIgnore {
+        public boolean ignore(Request request);
+    }
 }

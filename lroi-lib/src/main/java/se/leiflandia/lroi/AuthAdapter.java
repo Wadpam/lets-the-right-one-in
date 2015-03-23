@@ -2,7 +2,6 @@ package se.leiflandia.lroi;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 
@@ -17,12 +16,14 @@ import se.leiflandia.lroi.auth.AccountAuthenticator;
 import se.leiflandia.lroi.auth.ApiAuthInterceptor;
 import se.leiflandia.lroi.auth.ApiAuthenticator;
 import se.leiflandia.lroi.auth.model.AccessToken;
+import se.leiflandia.lroi.auth.model.ChangePasswordRequest;
 import se.leiflandia.lroi.auth.model.ClientCredentials;
 import se.leiflandia.lroi.auth.model.ResetPassword;
 import se.leiflandia.lroi.auth.model.RevocationRequest;
 import se.leiflandia.lroi.auth.model.DUser;
 import se.leiflandia.lroi.auth.model.UserCredentials;
 import se.leiflandia.lroi.network.AuthApi;
+import se.leiflandia.lroi.network.PasswordChangeFailure;
 import se.leiflandia.lroi.network.PasswordResetFailure;
 import se.leiflandia.lroi.network.SigninFailure;
 import se.leiflandia.lroi.network.SignoutFailure;
@@ -174,6 +175,36 @@ public class AuthAdapter {
                 } else {
                     AuthUtils.removeActiveAccount(getApplicationContext(), getAccountType());
                     callback.success(null);
+                }
+            }
+        });
+    }
+
+    public void changePassword(final ChangePasswordRequest request, final Callback<Void, PasswordChangeFailure> callback) {
+        // TODO This request don't include an ApiAuthenticator and will fail if the access token is invalid.
+
+        String token = accountManager.peekAuthToken(getActiveAccount(), getAuthTokenType());
+        getApi().changePassword(ApiAuthInterceptor.authHeaderValue(token), request, new retrofit.Callback<JsonElement>() {
+            @Override
+            public void success(JsonElement jsonElement, Response response) {
+                callback.success(null);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                switch (error.getKind()) {
+                    case NETWORK:
+                        callback.failure(PasswordChangeFailure.NETWORK);
+                        break;
+                    case HTTP:
+                        if (error.getResponse().getStatus() == HttpStatus.SC_UNAUTHORIZED) {
+                            callback.failure(PasswordChangeFailure.BAD_CREDENTIALS);
+                        } else {
+                            callback.failure(PasswordChangeFailure.UNEXPECTED);
+                        }
+                        break;
+                    default:
+                        callback.failure(PasswordChangeFailure.UNEXPECTED);
                 }
             }
         });

@@ -31,6 +31,10 @@ public class ApiAuthInterceptor implements RequestInterceptor {
         }
         // Do this even if token is null because otherwise we get 403 and the
         // RequestInterceptor won't fire.
-        request.addHeader("Authorization", "Bearer " + token);
+        request.addHeader("Authorization", authHeaderValue(token));
+    }
+
+    public static String authHeaderValue(String token) {
+        return "Bearer " + token;
     }
 }

@@ -5,8 +5,10 @@ import com.google.gson.JsonElement;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.POST;
 import se.leiflandia.lroi.auth.model.AccessToken;
+import se.leiflandia.lroi.auth.model.ChangePasswordRequest;
 import se.leiflandia.lroi.auth.model.RefreshTokenCredentials;
 import se.leiflandia.lroi.auth.model.ResetPassword;
 import se.leiflandia.lroi.auth.model.RevocationRequest;
@@ -34,4 +36,7 @@ public interface AuthApi {
 
     @POST("/api/user/password/reset")
     public void resetPassword(@Body ResetPassword request, Callback<JsonElement> callback);
+
+    @POST("/api/user/me/password")
+    public void changePassword(@Header("Authorization") String authorization, @Body ChangePasswordRequest request, Callback<JsonElement> callback);
 }
