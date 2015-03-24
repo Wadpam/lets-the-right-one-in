@@ -183,7 +183,8 @@ public class AuthAdapter {
     public void changePassword(final ChangePasswordRequest request, final Callback<Void, PasswordChangeFailure> callback) {
         /* TODO
            This request don't include the ApiAuthenticator and will fail if the access token is
-           invalid (because I'm lazy).
+           invalid (because I'm lazy). This is not neccessary since we can try to refresh the auth
+           token instead.
          */
 
         String token = accountManager.peekAuthToken(getActiveAccount(), getAuthTokenType());
