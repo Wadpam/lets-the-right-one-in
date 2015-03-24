@@ -181,7 +181,10 @@ public class AuthAdapter {
     }
 
     public void changePassword(final ChangePasswordRequest request, final Callback<Void, PasswordChangeFailure> callback) {
-        // TODO This request don't include an ApiAuthenticator and will fail if the access token is invalid.
+        /* TODO
+           This request don't include the ApiAuthenticator and will fail if the access token is
+           invalid (because I'm lazy).
+         */
 
         String token = accountManager.peekAuthToken(getActiveAccount(), getAuthTokenType());
         getApi().changePassword(ApiAuthInterceptor.authHeaderValue(token), request, new retrofit.Callback<JsonElement>() {
@@ -199,6 +202,8 @@ public class AuthAdapter {
                     case HTTP:
                         if (error.getResponse().getStatus() == HttpStatus.SC_UNAUTHORIZED) {
                             callback.failure(PasswordChangeFailure.BAD_CREDENTIALS);
+                        } else if (error.getResponse().getStatus() == HttpStatus.SC_FORBIDDEN) {
+                            callback.failure(PasswordChangeFailure.INVALID_ACCESS_TOKEN);
                         } else {
                             callback.failure(PasswordChangeFailure.UNEXPECTED);
                         }
