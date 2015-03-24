@@ -52,7 +52,7 @@ public abstract class AbstractLoginActivity extends AccountAuthenticatorActivity
     }
 
     public static boolean checkPasswordFormat(String password) {
-        return password != null && password.matches("^[^\\x00-\\x1F]{5,}$");
+        return password != null && password.matches("^[\\x21-\\x7E\\xA0-\\xBF\\p{L}]{5,256}$");
     }
 
 }
