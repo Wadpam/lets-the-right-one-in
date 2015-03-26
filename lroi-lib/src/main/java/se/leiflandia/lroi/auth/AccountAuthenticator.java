@@ -17,6 +17,7 @@ import se.leiflandia.lroi.auth.model.ClientCredentials;
 import se.leiflandia.lroi.auth.model.RefreshTokenCredentials;
 import se.leiflandia.lroi.network.AuthApi;
 import se.leiflandia.lroi.ui.AbstractLoginActivity;
+import se.leiflandia.lroi.utils.AuthUtils;
 import se.leiflandia.lroi.utils.BundleUtils;
 
 
@@ -86,9 +87,11 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
             } catch (RetrofitError e) {
                 if (e.getKind() == RetrofitError.Kind.NETWORK) {
                     Log.e(TAG, "Failed to refresh access token because of a network error.", e);
-                    throw new NetworkErrorException(e.getMessage());
+                    throw e;
                 } else {
                     Log.e(TAG, "Failed to refresh access token.", e);
+                    // Remove account
+                    AuthUtils.removeActiveAccount(context, accountType);
                 }
             } catch (Exception e) {
                 Log.e(TAG, "Failed to refresh access token.", e);
