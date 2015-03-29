@@ -89,6 +89,7 @@ public class AuthAdapter {
                         } else {
                             kind = SignupFailure.UNEXPECTED;
                         }
+                        break;
                     default:
                         kind = SignupFailure.UNEXPECTED;
                 }
