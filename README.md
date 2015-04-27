@@ -18,9 +18,42 @@ Follow the steps below to use this library. There's also a very basic example ap
 
 ### Step 1
 
-Create a class that extends `se.leiflandia.lroi.auth.AuthenticationService`.
+Add the following to your build file.
+
+If you're using gradle:
+
+```
+repositories {
+  maven {
+    url "https://jitpack.io"
+  }
+}
+
+dependencies {
+  compile 'com.github.Wadpam:lets-the-right-one-in:v0.1.0'
+}
+```
+
+If maven is your thing:
+
+```
+<repository>
+  <id>jitpack.io</id>
+  <url>https://jitpack.io</url>
+</repository>
+
+<dependency>
+  <groupId>com.github.Wadpam</groupId>
+  <artifactId>lets-the-right-one-in</artifactId>
+  <version>v0.1.0</version>
+</dependency>
+```
 
 ### Step 2
+
+Create a class that extends `se.leiflandia.lroi.auth.AuthenticationService`.
+
+### Step 3
 
 Add the service created in the last step to the manifest under `<application>`:
 
@@ -41,7 +74,7 @@ Add the service created in the last step to the manifest under `<application>`:
 Replace `.ExampleAuthenticationService` with your own implementation of `se.leiflandia.lroi.auth.AuthenticationService`.
 
 
-### Step 3
+### Step 4
 
 Create the file `res/xml/authenticator.xml` with the following content:
 
@@ -59,7 +92,7 @@ Create the file `res/xml/authenticator.xml` with the following content:
 Replace the values in brackets.
 
 
-### Step 4
+### Step 5
 
 Create an instance of AuthAdapter, for example like this:
 
@@ -73,7 +106,7 @@ AuthAdapter auth = new AuthAdapter.Builder()
     .setLoginActivityClass(LoginActivity.class)
     .build();
 ```
-### Step 5
+### Step 6
 
 Use the instance of Authadapter to perform sign up, sign in and sign out operations. It can also create
 instances of com.squareup.okhttp.Authenticator and retrofit.RequestInterceptor that can be used
