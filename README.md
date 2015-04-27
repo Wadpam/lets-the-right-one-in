@@ -9,6 +9,7 @@ Features:
 
 - Compatible with [Guja](https://github.com/Wadpam/guja)
 - Provides authentication based on [AccountManager](http://developer.android.com/reference/android/accounts/AccountManager.html) accounts.
+- Currently supports the [OAuth 2.0 Client Credentials Grant](http://tools.ietf.org/html/rfc6749#section-4.4) flow
 - Aimed for projects that uses Retrofit + OkHttp (unsuitable for projects that don't). __This might change in future releases.__
 
 
