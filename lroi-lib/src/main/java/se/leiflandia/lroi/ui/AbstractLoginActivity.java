@@ -48,7 +48,7 @@ public abstract class AbstractLoginActivity extends AccountAuthenticatorActivity
     }
 
     public static boolean checkUsernameFormat(String username) {
-        return username != null && username.matches("^[-_@\\.\\p{L}]{5,254}$");
+        return username != null && username.matches("^[-_@\\.0-9\\p{L}]{5,254}$");
     }
 
     public static boolean checkPasswordFormat(String password) {
