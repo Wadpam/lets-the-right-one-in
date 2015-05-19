@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-  compile 'com.github.Wadpam:lets-the-right-one-in:v0.1.4'
+  compile 'com.github.Wadpam:lets-the-right-one-in:v0.1.5'
 }
 ```
 
