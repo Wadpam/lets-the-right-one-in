@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-  compile 'com.github.Wadpam:lets-the-right-one-in:v0.1.4'
+  compile 'com.github.Wadpam:lets-the-right-one-in:v0.2.0'
 }
 ```
 
@@ -46,7 +46,7 @@ If maven is your thing:
 <dependency>
   <groupId>com.github.Wadpam</groupId>
   <artifactId>lets-the-right-one-in</artifactId>
-  <version>v0.1.1</version>
+  <version>v0.2.0</version>
 </dependency>
 ```
 
