@@ -23,7 +23,8 @@ public class ApiAuthenticator implements Authenticator {
     final String authtokenType;
     final String accountType;
 
-    public ApiAuthenticator(Context application, String authtokenType, String accountType) {
+    public ApiAuthenticator(Context application, String authtokenType, String accountType,
+                            ) {
         this.appContext = application;
         this.authtokenType = authtokenType;
         this.accountType = accountType;
@@ -50,7 +51,7 @@ public class ApiAuthenticator implements Authenticator {
             String token = accountManager.blockingGetAuthToken(account, authtokenType, false);
 
             if (token == null) {
-                accountManager.removeAccount(account, null, null);
+                accountManager.removeAccount(account, null, null, null);
             } else {
                 return response.request().newBuilder()
                         .header("Authorization", "Bearer " + token)
