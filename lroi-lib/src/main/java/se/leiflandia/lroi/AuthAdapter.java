@@ -255,7 +255,11 @@ public class AuthAdapter {
     }
 
     public ApiAuthenticator createApiAuthenticator() {
-        return new ApiAuthenticator(getApplicationContext(), getAuthTokenType(), getAccountType());
+        return new ApiAuthenticator(getApplicationContext(), getAuthTokenType(), getAccountType(), null);
+    }
+
+    public ApiAuthenticator createApiAuthenticator(ApiAuthenticator.AuthenticationFailListener authFailListener) {
+        return new ApiAuthenticator(getApplicationContext(), getAuthTokenType(), getAccountType(), authFailListener);
     }
 
     private AuthApi getApi() {

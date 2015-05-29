@@ -22,13 +22,15 @@ public class ApiAuthenticator implements Authenticator {
     final Context appContext;
     final String authtokenType;
     final String accountType;
+    final AuthenticationFailListener authFailListener;
 
     public ApiAuthenticator(Context application, String authtokenType, String accountType,
-                            ) {
+                            AuthenticationFailListener authFailListener) {
         this.appContext = application;
         this.authtokenType = authtokenType;
         this.accountType = accountType;
         this.accountManager = AccountManager.get(application);
+        this.authFailListener = authFailListener;
     }
 
     @Override
@@ -39,6 +41,10 @@ public class ApiAuthenticator implements Authenticator {
         if (response.request().uri().getPath().startsWith("/oauth")) return null;
 
         Account account = AuthUtils.getActiveAccount(appContext, accountType);
+        if (account == null) {
+            failAuth();
+            return null;
+        }
 
         String oldToken = accountManager.peekAuthToken(account, authtokenType);
         if (oldToken != null) {
@@ -52,6 +58,8 @@ public class ApiAuthenticator implements Authenticator {
 
             if (token == null) {
                 accountManager.removeAccount(account, null, null, null);
+                failAuth();
+                return null;
             } else {
                 return response.request().newBuilder()
                         .header("Authorization", "Bearer " + token)
@@ -64,6 +72,12 @@ public class ApiAuthenticator implements Authenticator {
         return null;
     }
 
+    private void failAuth() {
+        if (authFailListener != null) {
+            authFailListener.onAuthFail(appContext);
+        }
+    }
+
     @Override
     public Request authenticateProxy(Proxy proxy, Response response) throws IOException {
         return null;
@@ -71,5 +85,9 @@ public class ApiAuthenticator implements Authenticator {
 
     private interface AuthIgnore {
         public boolean ignore(Request request);
+    }
+
+    public interface AuthenticationFailListener {
+        public void onAuthFail(Context context);
     }
 }
